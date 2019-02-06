@@ -1,5 +1,5 @@
 {
-  "name": "typescript_carlos",
+  "name": "Api_typescript",
   "version": "1.0.0",
   "description": "Script desenvolvido como parte do curso de typescript udemy",
   "main": "server/server.ts",
@@ -8,7 +8,7 @@
     "builded": "NODE_ENV=development node ./dist/server.js",
     "unit-test": "NODE_ENV=test mocha --opts dist/tests/unit/config/mocha.opts ./dist/tests/unit/unit.test.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "integration-test":"NODE_ENV=test mocha --opts dist/tests/integration/config/mocha.opts ./dist/tests/integration/integration.test.js"
+    "integration-test": "NODE_ENV=test mocha --opts dist/tests/integration/config/mocha.opts ./dist/tests/integration/integration.test.js"
   },
   "keywords": [
     "API",
@@ -42,6 +42,7 @@
     "supertest": "^3.4.2",
     "testdouble": "^3.10.0",
     "ts-node": "^8.0.2",
-    "typescript": "^3.2.1"
+    "typescript": "^3.2.1",
+    "yarn": "^1.13.0"
   }
 }
