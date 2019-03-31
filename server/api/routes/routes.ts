@@ -5,8 +5,11 @@ import UserRoutes from '../../modules/User/routes';
 class Routes{
 
     private router : UserRoutes;
-    constructor(app:Application){
+    private tokenRoute;
+    private auth;
+    constructor(app:Application , auth: any){
         this.router = new UserRoutes();
+        this.auth = auth;
         this.getRoutes(app);
     }
     getRoutes(app:Application):void{
@@ -15,6 +18,7 @@ class Routes{
         app.route('/api/users/:id').get(this.router.findOne);
         app.route('/api/users/:id/update').put(this.router.update);
         app.route('/api/users/:id/destroy').delete(this.router.destroy);
+        app.route('/token').post(this.tokenRoute.auth);
     }
 }
 export default Routes;
