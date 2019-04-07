@@ -1,48 +1,52 @@
 import { Request, Response } from 'express';
 import * as _ from 'lodash';
-import Handlers from '../../api/responses/handlers';
+import {onSuccess} from '../../api/responses/successHandler';
+import {onError} from '../../api/responses/errorHandler';
+import {dbErrorHandler} from '../../config/dbErrorHandler'
 import User from './service';
-
+let user;
 class UserController {
 
-  constructor(){}
+  constructor(){
+    user = new User();
+  }
 
   getAll(req: Request, res: Response){
-    User
+    user
         .getAll()
-        .then(_.partial(Handlers.onSuccess, res))
-        .catch(_.partial(Handlers.onError, res, `Erro ao buscar todos os usuários`))
+        .then(_.partial(onSuccess, res))
+        .catch(_.partial(onError, res, `Erro ao buscar todos os usuarios`))
   }
 
   createUser(req: Request, res: Response){
-    User
+    user
         .create(req.body)
-        .then(_.partial(Handlers.onSuccess, res))
-        .catch(_.partial(Handlers.dbErrorHandler, res))
-        .catch(_.partial(Handlers.onError, res, `Erro ao inserir novo usuário`));
+        .then(_.partial(onSuccess, res))
+        .catch(_.partial(dbErrorHandler, res))
+        .catch(_.partial(onError, res, `Erro ao inserir novo usuario`));
   }
 
   getById(req: Request, res: Response){
     const userId = parseInt(req.params.id);
-    User.getById(userId)
-      .then(_.partial(Handlers.onSuccess, res))
-      .catch(_.partial(Handlers.onError, res, `Usuário não encontrado`))
+    user.getById(userId)
+      .then(_.partial(onSuccess, res))
+      .catch(_.partial(onError, res, `Usuario nao encontrado`))
   }
 
   updateUser(req: Request, res: Response){
     const userId = parseInt(req.params.id);
     const props = req.body;
-    User.update(userId, props)
-      .then(_.partial(Handlers.onSuccess, res))
-      .catch(_.partial(Handlers.onError, res, `Falha ao atualizar usuário`))
+    user.update(userId, props)
+      .then(_.partial(onSuccess, res))
+      .catch(_.partial(onError, res, `Falha ao atualizar usuario`))
   }
 
   deleteUser(req: Request, res: Response){
     const userId = parseInt(req.params.id);
-    User.delete(userId)
-      .then(_.partial(Handlers.onSuccess, res))
-      .catch(_.partial(Handlers.onError, res, `Erro ao excluir usuário`))
+    user.delete(userId)
+      .then(_.partial(onSuccess, res))
+      .catch(_.partial(onError, res, `Erro ao excluir usuario`))
   }
 }
 
-export default new UserController();
+export default  UserController;

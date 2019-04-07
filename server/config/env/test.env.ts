@@ -7,7 +7,7 @@ module.exports = {
     host: 'localhost',
     serverPort: 3000,
     pgPort: 5432,
-    dbURL:'postgres://postgres:carlos@localhost:5432/dbtypescript',
+    dbURL:'postgres://carlos:123456@localhost:5432/dbtypescript',
     secret:'1q2w3e'
 
 }
