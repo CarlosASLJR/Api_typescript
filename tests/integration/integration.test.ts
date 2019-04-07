@@ -2,7 +2,7 @@ import * as HTTPStatus from 'http-status';
 import { app, request, expect } from './config/helpers';
 const model = require('../../server/models');
 
-describe('Testes de Integração', () => {
+describe('Testes de Integra��o', () => {
 
   'use strict';
   const config = require('../../server/config/env/config')();
@@ -11,7 +11,7 @@ describe('Testes de Integração', () => {
 
   const userTest = {
     id: 100,
-    name: 'Usuário Teste',
+    name: 'Usu�rio Teste',
     email: 'teste@email.com',
     password: 'teste'
   };
@@ -70,7 +70,7 @@ describe('Testes de Integração', () => {
   })
 
   describe('GET /api/users/all', () => {
-    it('Deve retornar um Array com todos os Usuários', done => {
+    it('Deve retornar um Array com todos os Usu�rios', done => {
       request(app)
         .get('/api/users/all')
         .end((error, res) => {
@@ -84,7 +84,7 @@ describe('Testes de Integração', () => {
   });
 
   describe('GET /api/users/:id', () => {
-    it('Deve retornar um Array com apenas um Usuário', done => {
+    it('Deve retornar um Array com apenas um Usu�rio', done => {
       request(app)
         .get(`/api/users/${userDefault.id}`)
         .end((error, res) => {
@@ -99,7 +99,7 @@ describe('Testes de Integração', () => {
   });
 
   describe('POST /api/users/create', () => {
-    it('Deve criar um novo Usuário', done => {
+    it('Deve criar um novo Usu�rio', done => {
       const user = {
         id: 2,
         name: 'Usuario Teste',
@@ -120,7 +120,7 @@ describe('Testes de Integração', () => {
   });
 
   describe('PUT /api/users/:id/update', () => {
-    it('Deve atualizar um Usuário', done => {
+    it('Deve atualizar um Usu�rio', done => {
       const user = {
         name: 'TesteUpdate',
         email: 'update@email.com'
