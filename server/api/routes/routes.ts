@@ -9,7 +9,7 @@ class Routes{
     private auth;
     constructor(app:Application , auth: any){
         this.router = new UserRoutes();
-        this.tokenroute = new TokenRoutes();
+        this.tokenRoute = new TokenRoutes();
         this.auth = auth;
         this.getRoutes(app);
     }

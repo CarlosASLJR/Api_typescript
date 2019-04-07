@@ -1,17 +1,19 @@
+import * as jwt from 'jwt-simple';
 import * as HTTPStatus from 'http-status';
 import { app, request, expect } from './config/helpers';
 const model = require('../../server/models');
 
-describe('Testes de Integração', () => {
+describe('Testes de Integracao', () => {
 
   'use strict';
   const config = require('../../server/config/env/config')();
 
   let id;
+  let token;
 
   const userTest = {
     id: 100,
-    name: 'Usuário Teste',
+    name: 'Usuario Teste',
     email: 'teste@email.com',
     password: 'teste'
   };
@@ -33,6 +35,7 @@ describe('Testes de Integração', () => {
     .then(user => {
       model.User.create(userTest)
         .then(() => {
+          token = jwt.encode({id: user.id},config.secret);
           done();
         })
     })
@@ -53,7 +56,7 @@ describe('Testes de Integração', () => {
         });
     });
 
-    it('NÃ£o deve gerar Token', done => {
+    it('Nao deve gerar Token', done => {
       const credentials = {
         email: 'email@emailqualquer.com',
         password: 'qualquer'
@@ -70,9 +73,11 @@ describe('Testes de Integração', () => {
   })
 
   describe('GET /api/users/all', () => {
-    it('Deve retornar um Array com todos os Usuários', done => {
+    it('Deve retornar um Array com todos os Usuarios', done => {
       request(app)
         .get('/api/users/all')
+        .set('Content-Type','application/json')
+        .set('Authorization',`JWT ${token}`)
         .end((error, res) => {
           expect(res.status).to.equal(HTTPStatus.OK);
           expect(res.body.payload).to.be.an('array');
@@ -84,9 +89,11 @@ describe('Testes de Integração', () => {
   });
 
   describe('GET /api/users/:id', () => {
-    it('Deve retornar um Array com apenas um Usuário', done => {
+    it('Deve retornar um Array com apenas um Usuario', done => {
       request(app)
         .get(`/api/users/${userDefault.id}`)
+        .set('Content-Type','application/json')
+        .set('Authorization',`JWT ${token}`)
         .end((error, res) => {
           expect(res.status).to.equal(HTTPStatus.OK);
           expect(res.body.payload.id).to.equal(userDefault.id);
@@ -99,7 +106,7 @@ describe('Testes de Integração', () => {
   });
 
   describe('POST /api/users/create', () => {
-    it('Deve criar um novo Usuário', done => {
+    it('Deve criar um novo Usuario', done => {
       const user = {
         id: 2,
         name: 'Usuario Teste',
@@ -108,6 +115,8 @@ describe('Testes de Integração', () => {
       };
       request(app)
         .post('/api/users/create')
+        .set('Content-Type','application/json')
+        .set('Authorization',`JWT ${token}`)
         .send(user)
         .end((error, res) => {
           expect(res.status).to.equal(HTTPStatus.OK);
@@ -120,13 +129,15 @@ describe('Testes de Integração', () => {
   });
 
   describe('PUT /api/users/:id/update', () => {
-    it('Deve atualizar um Usuário', done => {
+    it('Deve atualizar um Usuario', done => {
       const user = {
         name: 'TesteUpdate',
         email: 'update@email.com'
       }
       request(app)
         .put(`/api/users/${userTest.id}/update`)
+        .set('Content-Type','application/json')
+        .set('Authorization',`JWT ${token}`)
         .send(user)
         .end((error, res) => {
           expect(res.status).to.equal(HTTPStatus.OK);
@@ -140,6 +151,8 @@ describe('Testes de Integração', () => {
     it('Should delete an User', done => {
       request(app)
         .del(`/api/users/${userTest.id}/destroy`)
+        .set('Content-Type','application/json')
+        .set('Authorization',`JWT ${token}`)
         .end((error, res) => {
           expect(res.status).to.equal(HTTPStatus.OK);
           expect(res.body.payload).to.eql(1);
